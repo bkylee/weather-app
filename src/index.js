@@ -1,3 +1,5 @@
+import pepe from './feelsbadman.png';
+
 let location = null;
 let dataJson = null;
 let weatherOb = {};
@@ -31,14 +33,23 @@ const showCity = ()=>{
 };
 
 const showMain = () => {
-    const weatherMain = document.createElement('div');
+    const weatherMain = document.createElement('img');
     weatherMain.setAttribute('id','main');
-    weatherMain.textContent = `Forecast: ${weatherOb.main}`;
+    fetch(`https://api.giphy.com/v1/gifs/translate?api_key=AyJHDcBUPp6Oma0RCBiaTOJTEfp9R230&s=${weatherOb.main}`, {mode:"cors"})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+      weatherMain.src=(response.data.images.original.url);
+    })
+    .catch(function(error){
+      img.src = pepe;
+    });
     main.appendChild(weatherMain);
     const weatherDesc = document.createElement('div');
     weatherDesc.setAttribute('id','desc');
     weatherDesc.textContent = weatherOb.description;
-    weatherMain.appendChild(weatherDesc);
+    main.appendChild(weatherDesc);
 };
 
 const showCurrenTemp = ()=>{
